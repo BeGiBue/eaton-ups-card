@@ -2,6 +2,24 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.6 - 2026-10-02
+
+### Geändert
+
+- Das Standardbild ist jetzt als PNG-Data-URI direkt in `eaton-ups-card.js` eingebettet.
+- Das Bild wird nicht mehr als CSS-Hintergrund geladen, sondern als echtes `<img>`-Element im Hero-Bereich dargestellt. Dadurch funktioniert die Darstellung zuverlässiger in verschiedenen Browsern.
+- Bei einer fehlerhaften eigenen Bild-URL fällt die Card automatisch auf das eingebettete Standardbild zurück.
+- Die Kartenhöhe richtet sich jetzt strikt nach dem von Home Assistant vorgegebenen Layout-Bereich.
+- `min-height`-Vorgaben und überlagernde Abstände wurden entfernt, damit die Card nicht mehr über die eingestellte Höhe hinausragt.
+- Der obere Hero-Bereich und das 2×2-Messwertraster teilen sich die verfügbare Höhe fest auf.
+- Das 2×2-Layout bleibt für alle Kartenbreiten erhalten.
+
+### Behoben
+
+- Browserabhängige Probleme bei der Anzeige des eingebetteten Bildes behoben.
+- Überlauf der Card über die im Home-Assistant-Layout eingestellte Höhe behoben.
+- Nicht mehr benötigte externe Bild-Assets entfernt.
+
 ## 1.0.5 - 2026-10-02
 
 ### Geändert
