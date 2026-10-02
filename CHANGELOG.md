@@ -2,6 +2,21 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.1 - 2026-10-02
+
+### Geändert
+
+- Entity-Felder im grafischen Karteneditor verwenden jetzt den nativen Home-Assistant-Entity-Picker.
+- Der Standard-Bildpfad wurde auf das mitgelieferte Asset `./assets/eaton_3s_850.png` korrigiert.
+- Eine eigene Bild-URL ist jetzt optional; ohne eigene Angabe wird automatisch das integrierte Bild verwendet.
+- Die Statusauswertung berücksichtigt zusätzlich `sensor.ups_statusdaten` und erkennt unter anderem `ONLINE`, `ON BATTERY`, `LOW`, `CHRG` und `CHARG`.
+- Doppelte Einheiten in Messwerten werden vermieden, wenn der Sensorzustand die Einheit bereits enthält.
+
+### Behoben
+
+- Bildanzeige bei HACS-Installation durch relativen Asset-Pfad korrigiert.
+- Editor-Konfiguration und Standardwerte vereinheitlicht.
+
 ## 1.0.0 - 2026-10-02
 
 ### Hinzugefügt
