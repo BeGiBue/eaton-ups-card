@@ -2,6 +2,16 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.8 - 2026-10-02
+
+### Geändert
+
+- Das eingebettete USV-Bild wurde gegenüber Version 1.0.7 um 50 % vergrößert.
+- Das Bild reicht jetzt hinter die erste Reihe des 2×2-Messwertrasters.
+- Oben und rechts hält das Bild jetzt jeweils 10 px zusätzlichen Abstand zum Kartenrand.
+- Die Messwertkacheln bleiben vor dem Bild und verwenden weiterhin eine theme-sensitive, leicht transparente Fläche.
+- Das 2×2-Layout und die feste Begrenzung auf den Home-Assistant-Layout-Slot bleiben erhalten.
+
 ## 1.0.7 - 2026-10-02
 
 ### Geändert
