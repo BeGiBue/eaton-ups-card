@@ -10,12 +10,13 @@
 - [x] HACS Action als `.github/workflows/validate.yml` hinzugefügt (`category: plugin`)
 - [x] GitHub Issues sind aktiviert
 - [x] Trademark-Hinweis beibehalten
-- [x] CC BY-NC 4.0 Lizenz beibehalten
+- [x] Lizenz auf GNU Affero General Public License v3.0 (AGPL-3.0) umgestellt
 - [x] JavaScript syntaktisch geprüft
-- [ ] GitHub Repository-Beschreibung setzen
-- [ ] GitHub Topics setzen, z. B. `home-assistant`, `hacs`, `lovelace`, `custom-card`, `eaton`, `ups`
-- [ ] Vollständigen GitHub Release `1.0.0` erstellen (nicht nur einen Tag)
-- [ ] Nach erfolgreicher HACS Action das Repository unter `plugin` bei `hacs/default` einreichen
+- [x] GitHub Repository-Beschreibung gesetzt
+- [x] GitHub Topics gesetzt
+- [x] Vollständigen GitHub Release `1.0.0` erstellt
+- [ ] HACS Action erfolgreich abschließen
+- [ ] Repository unter `plugin` bei `hacs/default` einreichen
 
 ## HACS-Logo-Hinweis
 
