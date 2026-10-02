@@ -1,6 +1,6 @@
 # Eaton UPS Card
 
-**Version 1.0.7**
+**Version 1.0.8**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten 2×2-Layout.
 
@@ -10,9 +10,11 @@ Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Car
 - Standardbild direkt in `eaton-ups-card.js` eingebettet
 - Das eingebettete PNG wird intern als Blob-URL bereitgestellt und als normales `<img>` geladen
 - Kein `/hacsfiles/...`-Bildpfad und keine separate Bilddatei erforderlich
-- Alte gespeicherte HACS-Bildpfade werden automatisch erkannt und ignoriert
 - Titel links oben, Status direkt darunter
 - Vier Messwerte immer in einem stabilen 2×2-Raster
+- USV-Bild im Hintergrund hinter Hero-Bereich und erster Messwertreihe
+- Bild gegenüber Version 1.0.7 um 50 % vergrößert
+- 10 px zusätzlicher Abstand des Bildes zum oberen und rechten Kartenrand
 - Kartenhöhe bleibt innerhalb des von Home Assistant zugewiesenen Layout-Bereichs
 - Grafischer Karteneditor in Home Assistant
 - Native Home-Assistant-Entity-Picker für alle Entitäten
@@ -71,19 +73,11 @@ show_status_data: true
 
 ## Integriertes Bild
 
-Ab Version **1.0.7** wird das eingebettete PNG nicht mehr direkt als `data:`-URL in das `<img>` geschrieben. Stattdessen erzeugt die Card aus den eingebetteten Bilddaten intern eine Blob-URL und weist diese anschließend dem Bild zu.
+Das Standardbild ist direkt in `eaton-ups-card.js` eingebettet und wird intern als Blob-URL geladen. Dadurch ist kein zusätzlicher HACS-Bildpfad erforderlich.
 
-Dadurch bleibt das Bild vollständig in `eaton-ups-card.js` enthalten, während die eigentliche Bilddarstellung wie bei einer normalen Bildressource erfolgt.
+In Version **1.0.8** wurde das Bild um 50 % vergrößert. Es liegt weiterhin im Hintergrund, reicht jetzt aber zusätzlich hinter die erste Reihe des 2×2-Messwertrasters. Damit bleibt das Bild sichtbar, ohne die Messwertkacheln zu verdrängen.
 
-Zusätzlich erkennt die Card alte Konfigurationswerte wie:
-
-```text
-http://homeassistant.local/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
-/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
-assets/eaton_3s_850.png
-```
-
-Diese alten Pfade werden automatisch ignoriert und durch das eingebettete Standardbild ersetzt. Es ist deshalb nicht nötig, bestehende Karten manuell zu bereinigen.
+Zum oberen und rechten Kartenrand hält das Bild jeweils 10 px zusätzlichen Abstand.
 
 Eine eigene Bild-URL kann weiterhin optional verwendet werden:
 
@@ -95,20 +89,20 @@ Falls eine eigene Bild-URL nicht geladen werden kann, fällt die Card automatisc
 
 ## Höhe und Layout
 
-Die Card füllt ausschließlich den ihr von Home Assistant zugewiesenen Bereich. Das interne `ha-card` wird mit `inset: 0` exakt an den Host gebunden und kann dadurch nicht über den Layout-Slot hinausragen.
+Die Card füllt ausschließlich den ihr von Home Assistant zugewiesenen Bereich. Das interne `ha-card` ist exakt an den Host gebunden und kann dadurch nicht über den Layout-Slot hinausragen.
 
 ```text
 ┌──────────────────────────────────────┐
 │ Eaton 3S 850              [ USV ]    │
 │ ● Online                    BILD     │
-│ Alles in Ordnung                     │
+│ Alles in Ordnung             BILD    │
 ├──────────────────────────────────────┤
-│ Ausgangsspannung   │ Last            │
+│ Ausgangsspannung   │ Last     BILD   │
 │ Akkulaufzeit       │ Wirkleistung    │
 └──────────────────────────────────────┘
 ```
 
-Der obere Hero-Bereich belegt ungefähr 46 % der Kartenhöhe, das 2×2-Messwertraster ungefähr 54 %. Beide Bereiche verwenden `min-height: 0` und `overflow: hidden`, damit die eingestellte Höhe eingehalten wird.
+Das 2×2-Messwertraster bleibt unabhängig von der Kartenbreite erhalten. Die Messwertkacheln liegen vor dem Bild und verwenden eine leicht transparente, theme-sensitive Fläche.
 
 `getGridOptions()` liefert standardmäßig 12 Spalten und 6 Zeilen; die Größe kann weiterhin über Home Assistants Tab **Layout** eingestellt werden.
 
