@@ -1,6 +1,6 @@
 # Eaton UPS Card
 
-**Version 1.0.6**
+**Version 1.0.7**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten 2×2-Layout.
 
@@ -8,12 +8,12 @@ Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Car
 
 - Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
 - Standardbild direkt in `eaton-ups-card.js` eingebettet
-- PNG wird als echtes `<img>`-Element im oberen Hero-Bereich dargestellt
+- Das eingebettete PNG wird intern als Blob-URL bereitgestellt und als normales `<img>` geladen
 - Kein `/hacsfiles/...`-Bildpfad und keine separate Bilddatei erforderlich
+- Alte gespeicherte HACS-Bildpfade werden automatisch erkannt und ignoriert
 - Titel links oben, Status direkt darunter
 - Vier Messwerte immer in einem stabilen 2×2-Raster
-- Kartenhöhe folgt exakt dem in Home Assistant eingestellten Layout-Bereich
-- Kein internes `min-height`, das die eingestellte Kartenhöhe überschreibt
+- Kartenhöhe bleibt innerhalb des von Home Assistant zugewiesenen Layout-Bereichs
 - Grafischer Karteneditor in Home Assistant
 - Native Home-Assistant-Entity-Picker für alle Entitäten
 - Theme-sensitiver Hintergrund, Text, Flächen, Rahmen und Badge
@@ -71,9 +71,19 @@ show_status_data: true
 
 ## Integriertes Bild
 
-Ab Version **1.0.6** ist das Standardbild als PNG-Data-URI direkt in `eaton-ups-card.js` eingebettet und wird als normales HTML-`<img>` gerendert.
+Ab Version **1.0.7** wird das eingebettete PNG nicht mehr direkt als `data:`-URL in das `<img>` geschrieben. Stattdessen erzeugt die Card aus den eingebetteten Bilddaten intern eine Blob-URL und weist diese anschließend dem Bild zu.
 
-Das ist absichtlich nicht als CSS-`background-image` umgesetzt. Dadurch ist die Darstellung in Safari, Chrome, Firefox und WebViews robuster.
+Dadurch bleibt das Bild vollständig in `eaton-ups-card.js` enthalten, während die eigentliche Bilddarstellung wie bei einer normalen Bildressource erfolgt.
+
+Zusätzlich erkennt die Card alte Konfigurationswerte wie:
+
+```text
+http://homeassistant.local/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
+/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
+assets/eaton_3s_850.png
+```
+
+Diese alten Pfade werden automatisch ignoriert und durch das eingebettete Standardbild ersetzt. Es ist deshalb nicht nötig, bestehende Karten manuell zu bereinigen.
 
 Eine eigene Bild-URL kann weiterhin optional verwendet werden:
 
@@ -81,11 +91,11 @@ Eine eigene Bild-URL kann weiterhin optional verwendet werden:
 image: /local/images/meine_usv.png
 ```
 
-Falls diese URL nicht geladen werden kann, fällt die Card automatisch auf das eingebettete Standardbild zurück.
+Falls eine eigene Bild-URL nicht geladen werden kann, fällt die Card automatisch auf das eingebettete Standardbild zurück.
 
 ## Höhe und Layout
 
-Die Card verwendet **keine feste Pixelhöhe** und auch kein `min-height`, das Home Assistant überstimmt. Stattdessen füllt sie exakt den vom Dashboard zugewiesenen Bereich:
+Die Card füllt ausschließlich den ihr von Home Assistant zugewiesenen Bereich. Das interne `ha-card` wird mit `inset: 0` exakt an den Host gebunden und kann dadurch nicht über den Layout-Slot hinausragen.
 
 ```text
 ┌──────────────────────────────────────┐
@@ -98,9 +108,9 @@ Die Card verwendet **keine feste Pixelhöhe** und auch kein `min-height`, das Ho
 └──────────────────────────────────────┘
 ```
 
-Der obere Bereich belegt ungefähr 46 % der Kartenhöhe, das 2×2-Messwertraster ungefähr 54 %. Dadurch ragt die Card nicht mehr über die im Home-Assistant-Tab **Layout** eingestellte Höhe hinaus.
+Der obere Hero-Bereich belegt ungefähr 46 % der Kartenhöhe, das 2×2-Messwertraster ungefähr 54 %. Beide Bereiche verwenden `min-height: 0` und `overflow: hidden`, damit die eingestellte Höhe eingehalten wird.
 
-`getGridOptions()` liefert standardmäßig 12 Spalten und 6 Zeilen; die Höhe kann weiterhin über Home Assistants Layout-Einstellungen verändert werden.
+`getGridOptions()` liefert standardmäßig 12 Spalten und 6 Zeilen; die Größe kann weiterhin über Home Assistants Tab **Layout** eingestellt werden.
 
 ## Theme-Unterstützung
 
