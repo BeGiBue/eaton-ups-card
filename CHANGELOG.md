@@ -2,6 +2,22 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.7 - 2026-10-02
+
+### Geändert
+
+- Das eingebettete Standardbild wird jetzt intern aus den eingebetteten PNG-Daten als Blob-URL erzeugt und anschließend als normales `<img>` geladen.
+- Alte, noch in bestehenden Kartenkonfigurationen gespeicherte HACS-Bildpfade werden automatisch erkannt und ignoriert. Dadurch verwendet die Card in diesem Fall direkt das eingebettete Standardbild.
+- Der Fehler-Fallback für eigene Bild-URLs wird jetzt vor dem Setzen von `src` registriert, damit auch sehr schnelle Ladefehler sicher abgefangen werden.
+- Die Card ist innerhalb ihres Home-Assistant-Layout-Slots absolut auf `inset: 0` begrenzt und kann dadurch nicht mehr über die zugewiesene Höhe hinausragen.
+- Das 2×2-Messwertraster bleibt unverändert erhalten.
+
+### Behoben
+
+- Fragezeichen bzw. defektes Bild bei noch gespeicherten alten `/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png`-Einträgen behoben.
+- Browserabhängige Timing-Probleme beim Bild-Fallback behoben.
+- Überstand der Karte über die vom Home-Assistant-Layout vorgegebene Höhe weiter abgesichert.
+
 ## 1.0.6 - 2026-10-02
 
 ### Geändert
