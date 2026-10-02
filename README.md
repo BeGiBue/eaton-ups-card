@@ -1,6 +1,6 @@
 # Eaton UPS Card
 
-**Version 1.0.4**
+**Version 1.0.5**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten, responsiven Layout.
 
@@ -8,11 +8,11 @@ Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Car
 
 - Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
 - USV-Bild als Hintergrund der oberen Kartenhälfte
+- Standardbild direkt in `eaton-ups-card.js` eingebettet
+- Kein separater Bildpfad und keine zusätzliche Bilddatei für die Standarddarstellung nötig
 - Titel links oben über dem Hintergrundbild
 - Status und Beschreibung direkt im Hero-Bereich
-- Messwerte überlagern den unteren Rand des oberen Bildbereichs
-- Vier Messwerte in einer Reihe auf breiten Karten
-- Automatisches 2×2-Layout bei schmaleren Karten
+- Vier Messwerte immer in einem stabilen 2×2-Raster
 - Responsive Darstellung für breite und schmale Dashboards
 - Breite und Höhe über Home Assistants **Layout**-Funktion
 - Sections-Layout mit Full-Width-Unterstützung
@@ -76,35 +76,33 @@ power_entity: sensor.waschkeller_ups_wirkleistung
 show_status_data: true
 ```
 
-## Bilddatei
+## Integriertes Bild
 
-Die Standard-Bilddatei wird unter folgendem Repository-Pfad erwartet:
+Ab Version **1.0.5** ist das Standardbild direkt als Data-URI in `eaton-ups-card.js` eingebettet.
+
+Dadurch ist keine separate Datei wie
 
 ```text
 assets/eaton_3s_850.png
 ```
 
-Bei einer HACS-Installation wird sie automatisch unter folgendem Pfad geladen:
+und auch kein Pfad wie
 
 ```text
 /hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
 ```
 
-Beispiel:
+mehr erforderlich.
 
-```text
-http://homeassistant.local/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
-```
+Das verhindert Probleme, wenn HACS zusätzliche Asset-Dateien nicht mit installiert oder ausliefert.
 
-Das Bild wird nicht mehr als separates Element links in der Karte angezeigt, sondern als Hintergrund der oberen Kartenhälfte. Auf der linken Seite liegt ein theme-sensitiver Verlauf, damit Titel und Status unabhängig vom Bild gut lesbar bleiben.
-
-Optional kann über `image:` eine eigene Bild-URL angegeben werden:
+Optional kann weiterhin eine eigene Bild-URL verwendet werden:
 
 ```yaml
 image: /local/images/meine_usv.png
 ```
 
-Bleibt `image:` leer oder wird nicht gesetzt, verwendet die Card automatisch den HACS-Pfad zum Standardbild.
+Wird `image:` nicht gesetzt oder leer gelassen, verwendet die Card automatisch das eingebettete Standardbild.
 
 ## Theme-Unterstützung
 
@@ -127,7 +125,7 @@ Damit passt sich die Card automatisch an Light Mode, Dark Mode und benutzerdefin
 
 ## Layout
 
-Bei breiten Karten besteht das Layout aus zwei Ebenen:
+Das Layout besteht aus einem oberen Hero-Bereich und einem darunterliegenden Messwertbereich:
 
 ```text
 ┌─────────────────────────────────────────────────────┐
@@ -135,11 +133,12 @@ Bei breiten Karten besteht das Layout aus zwei Ebenen:
 │ ● Online                                           │
 │ Alles in Ordnung                                   │
 │                                                     │
-│   Spannung      Last      Laufzeit      Leistung   │
+│   Ausgangsspannung        Last                     │
+│   Akkulaufzeit            Wirkleistung             │
 └─────────────────────────────────────────────────────┘
 ```
 
-Das Bild liegt dabei im Hintergrund der oberen Hälfte. Die Messwert-Kacheln ragen leicht in diesen Bereich hinein. Auf schmaleren Karten wechseln die vier Werte automatisch in ein 2×2-Raster.
+Das Bild liegt im Hintergrund der oberen Kartenhälfte. Titel und Status liegen darüber. Die vier Messwerte werden **immer als 2×2-Raster** dargestellt. Das frühere 1×4-Layout wurde entfernt, weil es sich bei bestimmten Kartenbreiten überlappen konnte.
 
 Breite und Höhe werden über Home Assistants Tab **Layout** eingestellt. Die Card implementiert `getGridOptions()` und füllt den zugewiesenen Bereich vollständig aus.
 
