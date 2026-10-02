@@ -1,7 +1,7 @@
-// Eaton UPS Card v1.0.1
-const VERSION = "1.0.1";
+// Eaton UPS Card v1.0.2
+const VERSION = "1.0.2";
 
-const DEFAULT_IMAGE = new URL("./assets/eaton_3s_850.png", import.meta.url).href;
+const DEFAULT_IMAGE = "/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png";
 
 const DEFAULT_CONFIG = {
   name: "Eaton 3S 850",
@@ -160,6 +160,11 @@ class EatonUpsCard extends HTMLElement {
           height:100%;
           min-width:0;
           container-type:inline-size;
+          --ups-card-bg: var(--ha-card-background, var(--card-background-color, #ffffff));
+          --ups-card-fg: var(--primary-text-color, #111111);
+          --ups-card-secondary: var(--secondary-text-color, #666666);
+          --ups-card-surface: var(--secondary-background-color, var(--card-background-color, #ffffff));
+          --ups-card-border: var(--ha-card-border-color, var(--divider-color, rgba(127,127,127,.2)));
         }
 
         * { box-sizing:border-box; }
@@ -171,12 +176,20 @@ class EatonUpsCard extends HTMLElement {
           min-height:270px;
           overflow:hidden;
           border-radius:var(--ha-card-border-radius, 28px);
-          border:1px solid rgba(255,255,255,.07);
-          color:#fff;
+          border:var(--ha-card-border-width, 1px) solid var(--ups-card-border);
+          color:var(--ups-card-fg);
           background:
-            radial-gradient(circle at 78% 18%, rgba(48,140,152,.22), transparent 34%),
-            linear-gradient(135deg, #17384c 0%, #102d40 48%, #103844 100%);
-          box-shadow:var(--ha-card-box-shadow, 0 10px 28px rgba(0,0,0,.24));
+            radial-gradient(
+              circle at 78% 18%,
+              color-mix(in srgb, var(--primary-color, #03a9f4) 12%, transparent),
+              transparent 34%
+            ),
+            linear-gradient(
+              135deg,
+              color-mix(in srgb, var(--ups-card-bg) 94%, var(--primary-color, #03a9f4) 6%),
+              var(--ups-card-bg)
+            );
+          box-shadow:var(--ha-card-box-shadow, 0 4px 14px rgba(0,0,0,.12));
         }
 
         .layout {
@@ -198,8 +211,8 @@ class EatonUpsCard extends HTMLElement {
           height:100%;
           min-height:230px;
           border-radius:24px;
-          background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-          border:1px solid rgba(255,255,255,.07);
+          background:color-mix(in srgb, var(--ups-card-surface) 88%, transparent);
+          border:1px solid var(--ups-card-border);
           overflow:hidden;
         }
 
@@ -208,13 +221,14 @@ class EatonUpsCard extends HTMLElement {
           width:94%;
           height:94%;
           object-fit:contain;
-          filter:drop-shadow(0 18px 20px rgba(0,0,0,.26));
+          filter:drop-shadow(0 14px 18px rgba(0,0,0,.20));
         }
 
         .info { min-width:0; }
 
         .name {
           margin:0 0 18px;
+          color:var(--ups-card-fg);
           font-size:clamp(26px,3.3cqw,42px);
           line-height:1.02;
           font-weight:800;
@@ -245,14 +259,14 @@ class EatonUpsCard extends HTMLElement {
         }
 
         .detail {
-          color:rgba(226,238,248,.72);
+          color:var(--ups-card-secondary);
           font-size:clamp(14px,1.4cqw,18px);
           line-height:1.35;
         }
 
         .status-data {
           margin-top:12px;
-          color:rgba(226,238,248,.52);
+          color:color-mix(in srgb, var(--ups-card-secondary) 80%, transparent);
           font-size:12px;
           line-height:1.3;
           overflow-wrap:anywhere;
@@ -273,19 +287,20 @@ class EatonUpsCard extends HTMLElement {
           min-width:0;
           min-height:112px;
           padding:16px 18px;
-          border:1px solid color-mix(in srgb, var(--accent) 24%, rgba(255,255,255,.08));
+          border:1px solid color-mix(in srgb, var(--accent) 32%, var(--ups-card-border));
           border-radius:22px;
-          background:
-            linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
-            rgba(20,45,64,.56);
-          color:#fff;
+          background:color-mix(in srgb, var(--ups-card-surface) 90%, transparent);
+          color:var(--ups-card-fg);
           font:inherit;
           text-align:left;
           cursor:pointer;
           transition:transform .12s ease, background .12s ease;
         }
 
-        .metric:hover { background:rgba(28,58,77,.76); }
+        .metric:hover {
+          background:color-mix(in srgb, var(--ups-card-surface) 78%, var(--primary-color, #03a9f4) 22%);
+        }
+
         .metric:active { transform:scale(.985); }
 
         .metric ha-icon {
@@ -298,7 +313,7 @@ class EatonUpsCard extends HTMLElement {
 
         .metric-label {
           margin-bottom:7px;
-          color:rgba(224,236,248,.82);
+          color:var(--ups-card-secondary);
           font-size:clamp(13px,1.35cqw,17px);
           line-height:1.05;
           white-space:nowrap;
@@ -307,7 +322,7 @@ class EatonUpsCard extends HTMLElement {
         }
 
         .metric-value {
-          color:#fff;
+          color:var(--ups-card-fg);
           font-size:clamp(25px,3cqw,38px);
           line-height:1;
           font-weight:800;
@@ -325,9 +340,9 @@ class EatonUpsCard extends HTMLElement {
           gap:8px;
           padding:10px 16px;
           border-radius:18px;
-          border:1px solid rgba(255,255,255,.08);
-          background:rgba(118,147,194,.16);
-          color:#e9f0fb;
+          border:1px solid var(--ups-card-border);
+          background:color-mix(in srgb, var(--ups-card-surface) 88%, transparent);
+          color:var(--ups-card-fg);
           font-size:15px;
           font-weight:700;
           backdrop-filter:blur(8px);
@@ -557,7 +572,7 @@ class EatonUpsCardEditor extends HTMLElement {
 
             <label class="field">
               <span class="label">Eigene Bild-URL (optional)</span>
-              <input data-key="image" type="text" value="${esc(this._config.image ?? "")}" placeholder="Standardbild aus dem Repository">
+              <input data-key="image" type="text" value="${esc(this._config.image ?? "")}" placeholder="Standardbild aus HACS">
             </label>
           </div>
 
@@ -568,8 +583,8 @@ class EatonUpsCardEditor extends HTMLElement {
 
           <div class="hint">
             Die Entitäten werden mit dem normalen Home-Assistant-Entity-Picker ausgewählt.
-            Ohne eigene Bild-URL verwendet die Card automatisch das mitgelieferte Bild
-            <code>assets/eaton_3s_850.png</code>.
+            Ohne eigene Bild-URL verwendet die Card automatisch
+            <code>/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png</code>.
           </div>
         </div>
       </div>`;
@@ -588,7 +603,7 @@ class EatonUpsCardEditor extends HTMLElement {
     this.shadowRoot.querySelectorAll('input[type="text"]').forEach((input) => {
       input.addEventListener("change", (event) => {
         const key = event.currentTarget.dataset.key;
-        let value = event.currentTarget.value;
+        const value = event.currentTarget.value;
 
         const next = { ...this._config };
         if (key === "image" && !value.trim()) {
