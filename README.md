@@ -1,32 +1,27 @@
 # Eaton UPS Card
 
-**Version 1.0.5**
+**Version 1.0.6**
 
-Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten, responsiven Layout.
+Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten 2×2-Layout.
 
 ## Funktionen
 
 - Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
-- USV-Bild als Hintergrund der oberen Kartenhälfte
 - Standardbild direkt in `eaton-ups-card.js` eingebettet
-- Kein separater Bildpfad und keine zusätzliche Bilddatei für die Standarddarstellung nötig
-- Titel links oben über dem Hintergrundbild
-- Status und Beschreibung direkt im Hero-Bereich
+- PNG wird als echtes `<img>`-Element im oberen Hero-Bereich dargestellt
+- Kein `/hacsfiles/...`-Bildpfad und keine separate Bilddatei erforderlich
+- Titel links oben, Status direkt darunter
 - Vier Messwerte immer in einem stabilen 2×2-Raster
-- Responsive Darstellung für breite und schmale Dashboards
-- Breite und Höhe über Home Assistants **Layout**-Funktion
-- Sections-Layout mit Full-Width-Unterstützung
+- Kartenhöhe folgt exakt dem in Home Assistant eingestellten Layout-Bereich
+- Kein internes `min-height`, das die eingestellte Kartenhöhe überschreibt
 - Grafischer Karteneditor in Home Assistant
 - Native Home-Assistant-Entity-Picker für alle Entitäten
 - Theme-sensitiver Hintergrund, Text, Flächen, Rahmen und Badge
-- Automatische Statusauswertung typischer NUT-Werte wie `OL`, `ONLINE`, `OB`, `ON BATTERY`, `LB`, `LOW`, `BYPASS`, `OVER`, `FAULT`, `FSD`, `CHRG` und `CHARG`
-- Farbige Statusanzeige für Netzbetrieb, Batteriebetrieb und Störungen
+- Automatische Statusauswertung typischer NUT-Werte
 - Klick auf einen Messwert öffnet den jeweiligen Home-Assistant-Entity-Dialog
 - Keine externen JavaScript-Bibliotheken
 
 ## Standard-Entitäten
-
-Die Card ist standardmäßig auf folgende Entitäten vorkonfiguriert:
 
 ```text
 sensor.ups_ausgangsspannung
@@ -50,11 +45,9 @@ Alle Entitäten können im grafischen Karteneditor über den normalen Home-Assis
 1. In HACS **Benutzerdefinierte Repositories** öffnen.
 2. `https://github.com/BeGiBue/eaton-ups-card` hinzufügen und Typ **Dashboard** auswählen.
 3. **Eaton UPS Card** installieren.
-4. Home-Assistant-App bzw. Browser vollständig neu laden.
+4. Home Assistant bzw. den Browser vollständig neu laden.
 
 ## Card hinzufügen
-
-Die Card erscheint als **Eaton UPS Card** im Karten-Picker.
 
 Minimal-Konfiguration:
 
@@ -78,35 +71,40 @@ show_status_data: true
 
 ## Integriertes Bild
 
-Ab Version **1.0.5** ist das Standardbild direkt als Data-URI in `eaton-ups-card.js` eingebettet.
+Ab Version **1.0.6** ist das Standardbild als PNG-Data-URI direkt in `eaton-ups-card.js` eingebettet und wird als normales HTML-`<img>` gerendert.
 
-Dadurch ist keine separate Datei wie
+Das ist absichtlich nicht als CSS-`background-image` umgesetzt. Dadurch ist die Darstellung in Safari, Chrome, Firefox und WebViews robuster.
 
-```text
-assets/eaton_3s_850.png
-```
-
-und auch kein Pfad wie
-
-```text
-/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
-```
-
-mehr erforderlich.
-
-Das verhindert Probleme, wenn HACS zusätzliche Asset-Dateien nicht mit installiert oder ausliefert.
-
-Optional kann weiterhin eine eigene Bild-URL verwendet werden:
+Eine eigene Bild-URL kann weiterhin optional verwendet werden:
 
 ```yaml
 image: /local/images/meine_usv.png
 ```
 
-Wird `image:` nicht gesetzt oder leer gelassen, verwendet die Card automatisch das eingebettete Standardbild.
+Falls diese URL nicht geladen werden kann, fällt die Card automatisch auf das eingebettete Standardbild zurück.
+
+## Höhe und Layout
+
+Die Card verwendet **keine feste Pixelhöhe** und auch kein `min-height`, das Home Assistant überstimmt. Stattdessen füllt sie exakt den vom Dashboard zugewiesenen Bereich:
+
+```text
+┌──────────────────────────────────────┐
+│ Eaton 3S 850              [ USV ]    │
+│ ● Online                    BILD     │
+│ Alles in Ordnung                     │
+├──────────────────────────────────────┤
+│ Ausgangsspannung   │ Last            │
+│ Akkulaufzeit       │ Wirkleistung    │
+└──────────────────────────────────────┘
+```
+
+Der obere Bereich belegt ungefähr 46 % der Kartenhöhe, das 2×2-Messwertraster ungefähr 54 %. Dadurch ragt die Card nicht mehr über die im Home-Assistant-Tab **Layout** eingestellte Höhe hinaus.
+
+`getGridOptions()` liefert standardmäßig 12 Spalten und 6 Zeilen; die Höhe kann weiterhin über Home Assistants Layout-Einstellungen verändert werden.
 
 ## Theme-Unterstützung
 
-Die Card folgt dem aktiven Home-Assistant-Theme. Verwendet werden unter anderem:
+Die Card folgt dem aktiven Home-Assistant-Theme und verwendet unter anderem:
 
 ```text
 --ha-card-background
@@ -116,37 +114,17 @@ Die Card folgt dem aktiven Home-Assistant-Theme. Verwendet werden unter anderem:
 --secondary-background-color
 --divider-color
 --ha-card-border-color
---primary-color
 --ha-card-box-shadow
 --ha-card-border-radius
 ```
 
-Damit passt sich die Card automatisch an Light Mode, Dark Mode und benutzerdefinierte Themes an. Die vier Messwert-Akzentfarben bleiben bewusst erhalten.
-
-## Layout
-
-Das Layout besteht aus einem oberen Hero-Bereich und einem darunterliegenden Messwertbereich:
-
-```text
-┌─────────────────────────────────────────────────────┐
-│ Eaton 3S 850                     [ USV ]      BILD  │
-│ ● Online                                           │
-│ Alles in Ordnung                                   │
-│                                                     │
-│   Ausgangsspannung        Last                     │
-│   Akkulaufzeit            Wirkleistung             │
-└─────────────────────────────────────────────────────┘
-```
-
-Das Bild liegt im Hintergrund der oberen Kartenhälfte. Titel und Status liegen darüber. Die vier Messwerte werden **immer als 2×2-Raster** dargestellt. Das frühere 1×4-Layout wurde entfernt, weil es sich bei bestimmten Kartenbreiten überlappen konnte.
-
-Breite und Höhe werden über Home Assistants Tab **Layout** eingestellt. Die Card implementiert `getGridOptions()` und füllt den zugewiesenen Bereich vollständig aus.
+Die vier Messwert-Akzentfarben bleiben bewusst erhalten.
 
 ## Statusauswertung
 
 Typische NUT-Statuswerte werden automatisch interpretiert:
 
-- `OL` / `ONLINE` → Netzbetrieb / Alles in Ordnung
+- `OL` / `ONLINE` → Online / Alles in Ordnung
 - `OL CHRG` / `CHARG` → Netzbetrieb / Akku wird geladen
 - `OB` / `ON BATTERY` → Batteriebetrieb
 - `LB` / `LOW` → Akku niedrig
