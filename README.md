@@ -133,6 +133,6 @@ Dieses Projekt ist ein unabhängiges Community-Projekt und steht in keiner Verbi
 
 ## Lizenz
 
-Creative Commons Attribution-NonCommercial 4.0 International (**CC BY-NC 4.0**).
+GNU Affero General Public License v3.0 (**AGPL-3.0**).
 
-Änderungen und nicht-kommerzielle Weitergabe sind unter Namensnennung erlaubt; kommerzielle Nutzung ist nicht gestattet. Details stehen in [`LICENSE`](LICENSE).
+Details stehen in [`LICENSE`](LICENSE).
