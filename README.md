@@ -15,7 +15,7 @@
 
 ## Vorschau
 
-![Eaton UPS Card in Home Assistant](screenshots/eaton-ups-card.jpg)
+![Eaton UPS Card in Home Assistant](https://raw.githubusercontent.com/BeGiBue/eaton-ups-card/main/screenshots/eaton-ups-card.jpg)
 
 ## Funktionen
 
