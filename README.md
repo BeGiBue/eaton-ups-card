@@ -1,22 +1,19 @@
 # Eaton UPS Card
 
-**Version 1.0.2**
+**Version 1.0.3**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten, responsiven Layout.
-
-Die Card enthält das Eaton-3S-850-Bild direkt im Repository und verwendet es standardmäßig automatisch.
 
 ## Funktionen
 
 - Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
-- Integriertes Eaton-3S-850-Bild
 - Große 2×2-Messwertanzeigen
 - Responsive Darstellung für breite und schmale Dashboards
 - Breite und Höhe über Home Assistants **Layout**-Funktion
 - Sections-Layout mit Full-Width-Unterstützung
 - Grafischer Karteneditor in Home Assistant
 - Native Home-Assistant-Entity-Picker für alle Entitäten
-- Theme-sensitiver Hintergrund und Theme-sensitives Kartenlayout
+- Theme-sensitiver Hintergrund, Text, Flächen, Rahmen und Badge
 - Automatische Statusauswertung typischer NUT-Werte wie `OL`, `ONLINE`, `OB`, `ON BATTERY`, `LB`, `LOW`, `BYPASS`, `OVER`, `FAULT`, `FSD`, `CHRG` und `CHARG`
 - Farbige Statusanzeige für Netzbetrieb, Batteriebetrieb und Störungen
 - Klick auf einen Messwert öffnet den jeweiligen Home-Assistant-Entity-Dialog
@@ -74,25 +71,27 @@ power_entity: sensor.waschkeller_ups_wirkleistung
 show_status_data: true
 ```
 
-## Integriertes Bild
+## Bilddatei
 
-Das mitgelieferte Bild liegt im Repository unter:
+Die Standard-Bilddatei wird unter folgendem Repository-Pfad erwartet:
 
 ```text
 assets/eaton_3s_850.png
 ```
 
-Bei einer HACS-Installation wird es von der Card standardmäßig über diesen Pfad geladen:
+Bei einer HACS-Installation wird sie von der Card automatisch über die aktuelle Home-Assistant-Adresse geladen. Der resultierende Pfad lautet:
 
 ```text
 /hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
 ```
 
-Das entspricht in einer Standardinstallation beispielsweise:
+Beispiel:
 
 ```text
 http://homeassistant.local/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
 ```
+
+Die Card baut diese URL aus `window.location.origin` auf. Dadurch wird immer dieselbe Home-Assistant-Instanz verwendet, auf der die Card gerade läuft.
 
 Optional kann über `image:` eine eigene Bild-URL angegeben werden:
 
@@ -100,13 +99,26 @@ Optional kann über `image:` eine eigene Bild-URL angegeben werden:
 image: /local/images/meine_usv.png
 ```
 
-Bleibt `image:` leer oder wird nicht gesetzt, verwendet die Card automatisch das mitgelieferte Bild.
+Bleibt `image:` leer oder wird nicht gesetzt, verwendet die Card automatisch den HACS-Pfad zum Standardbild.
 
 ## Theme-Unterstützung
 
-Der Kartenhintergrund verwendet die Home-Assistant-Theme-Variablen wie `--ha-card-background`, `--card-background-color`, `--primary-text-color`, `--secondary-text-color`, `--secondary-background-color`, `--divider-color` und `--primary-color`.
+Die Card folgt dem aktiven Home-Assistant-Theme. Verwendet werden unter anderem:
 
-Dadurch passt sich die Card automatisch an Light Mode, Dark Mode und benutzerdefinierte Home-Assistant-Themes an.
+```text
+--ha-card-background
+--card-background-color
+--primary-text-color
+--secondary-text-color
+--secondary-background-color
+--divider-color
+--ha-card-border-color
+--primary-color
+--ha-card-box-shadow
+--ha-card-border-radius
+```
+
+Damit passt sich die Card automatisch an Light Mode, Dark Mode und benutzerdefinierte Themes an. Die vier Messwert-Akzentfarben bleiben bewusst erhalten.
 
 ## Layout
 
