@@ -1,5 +1,5 @@
-// Eaton UPS Card v1.0.3
-const VERSION = "1.0.3";
+// Eaton UPS Card v1.0.4
+const VERSION = "1.0.4";
 
 const DEFAULT_IMAGE = `${window.location.origin}/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png`;
 
@@ -54,13 +54,7 @@ function statusInfo(raw) {
     return { label: "Online", detail: "Alles in Ordnung", color: "#67ef8a", badge: "USV", icon: "mdi:power-plug" };
   }
 
-  return {
-    label: raw || "Unbekannt",
-    detail: "Status unbekannt",
-    color: "#9aa7b3",
-    badge: "USV",
-    icon: "mdi:power-plug",
-  };
+  return { label: raw || "Unbekannt", detail: "Status unbekannt", color: "#9aa7b3", badge: "USV", icon: "mdi:power-plug" };
 }
 
 class EatonUpsCard extends HTMLElement {
@@ -82,26 +76,14 @@ class EatonUpsCard extends HTMLElement {
     this._render();
   }
 
-  getCardSize() {
-    return 4;
-  }
+  getCardSize() { return 4; }
 
   getGridOptions() {
-    return {
-      columns: 12,
-      rows: 4,
-      min_columns: 4,
-      min_rows: 3,
-    };
+    return { columns: 12, rows: 4, min_columns: 4, min_rows: 3 };
   }
 
-  static getConfigElement() {
-    return document.createElement("eaton-ups-card-editor");
-  }
-
-  static getStubConfig() {
-    return { ...DEFAULT_CONFIG };
-  }
+  static getConfigElement() { return document.createElement("eaton-ups-card-editor"); }
+  static getStubConfig() { return { ...DEFAULT_CONFIG }; }
 
   _state(entityId) {
     if (!entityId || !this._hass) return null;
@@ -111,13 +93,9 @@ class EatonUpsCard extends HTMLElement {
   _formatted(entityId) {
     const entity = this._state(entityId);
     if (!entity) return "–";
-
     const unit = entity.attributes?.unit_of_measurement;
     const state = entity.state ?? "–";
-
-    if (!unit || String(state).toLowerCase().includes(String(unit).toLowerCase())) {
-      return String(state);
-    }
+    if (!unit || String(state).toLowerCase().includes(String(unit).toLowerCase())) return String(state);
     return `${state} ${unit}`;
   }
 
@@ -134,16 +112,15 @@ class EatonUpsCard extends HTMLElement {
     if (!this.shadowRoot) return;
 
     const statusEntity = this._state(this._config.status_entity);
-    const statusDataEntity = this._state(this._config.status_data_entity);
-    const statusData = statusDataEntity?.state;
+    const statusData = this._state(this._config.status_data_entity)?.state;
     const statusSource = [statusEntity?.state, statusData].filter(Boolean).join(" ");
     const status = statusInfo(statusSource);
     const image = this._config.image?.trim() || DEFAULT_IMAGE;
 
-    const metricHtml = METRICS.map((metric) => {
+    const metricHtml = METRICS.map((metric, index) => {
       const entityId = this._config[metric.key];
       return `
-        <button class="metric" data-entity="${esc(entityId)}" style="--accent:${metric.accent}">
+        <button class="metric metric-${index + 1}" data-entity="${esc(entityId)}" style="--accent:${metric.accent}">
           <ha-icon icon="${metric.icon}"></ha-icon>
           <div class="metric-copy">
             <div class="metric-label">${metric.label}</div>
@@ -173,82 +150,93 @@ class EatonUpsCard extends HTMLElement {
           position:relative;
           width:100%;
           height:100%;
-          min-height:270px;
+          min-height:320px;
           overflow:hidden;
           border-radius:var(--ha-card-border-radius, 28px);
           border:var(--ha-card-border-width, 1px) solid var(--ups-card-border);
           color:var(--ups-card-fg);
-          background:
-            radial-gradient(
-              circle at 78% 18%,
-              color-mix(in srgb, var(--primary-color, #03a9f4) 12%, transparent),
-              transparent 34%
-            ),
-            linear-gradient(
-              135deg,
-              color-mix(in srgb, var(--ups-card-bg) 94%, var(--primary-color, #03a9f4) 6%),
-              var(--ups-card-bg)
-            );
+          background:var(--ups-card-bg);
           box-shadow:var(--ha-card-box-shadow, 0 4px 14px rgba(0,0,0,.12));
         }
 
-        .layout {
-          display:grid;
-          grid-template-columns:minmax(210px,1fr) minmax(200px,.95fr) minmax(390px,1.5fr);
-          gap:22px;
-          align-items:center;
-          width:100%;
-          height:100%;
-          min-height:270px;
+        .hero {
+          position:relative;
+          min-height:178px;
           padding:18px;
-        }
-
-        .image-wrap {
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          min-width:0;
-          height:100%;
-          min-height:230px;
-          border-radius:24px;
-          background:color-mix(in srgb, var(--ups-card-surface) 88%, transparent);
-          border:1px solid var(--ups-card-border);
           overflow:hidden;
+          background:
+            linear-gradient(90deg,
+              color-mix(in srgb, var(--ups-card-bg) 94%, transparent) 0%,
+              color-mix(in srgb, var(--ups-card-bg) 84%, transparent) 34%,
+              color-mix(in srgb, var(--ups-card-bg) 52%, transparent) 62%,
+              color-mix(in srgb, var(--ups-card-bg) 26%, transparent) 100%),
+            linear-gradient(180deg,
+              transparent 58%,
+              var(--ups-card-bg) 100%),
+            url("${esc(image)}") right center / min(48%, 560px) auto no-repeat,
+            linear-gradient(135deg,
+              color-mix(in srgb, var(--ups-card-bg) 94%, var(--primary-color, #03a9f4) 6%),
+              var(--ups-card-bg));
         }
 
-        .image-wrap img {
-          display:block;
-          width:94%;
-          height:94%;
-          object-fit:contain;
-          filter:drop-shadow(0 14px 18px rgba(0,0,0,.20));
+        .title-row {
+          position:relative;
+          z-index:2;
+          display:flex;
+          align-items:flex-start;
+          justify-content:space-between;
+          gap:16px;
         }
-
-        .info { min-width:0; }
 
         .name {
-          margin:0 0 18px;
+          margin:0;
+          max-width:70%;
           color:var(--ups-card-fg);
-          font-size:clamp(26px,3.3cqw,42px);
-          line-height:1.02;
+          font-size:clamp(28px,3.8cqw,46px);
+          line-height:1;
           font-weight:800;
-          letter-spacing:-.7px;
+          letter-spacing:-.8px;
+          text-shadow:0 1px 12px color-mix(in srgb, var(--ups-card-bg) 75%, transparent);
+        }
+
+        .badge {
+          display:flex;
+          align-items:center;
+          gap:8px;
+          padding:9px 14px;
+          border-radius:18px;
+          border:1px solid var(--ups-card-border);
+          background:color-mix(in srgb, var(--ups-card-surface) 82%, transparent);
+          color:var(--ups-card-fg);
+          font-size:14px;
+          font-weight:700;
+          backdrop-filter:blur(8px);
+          flex:0 0 auto;
+        }
+
+        .badge ha-icon { width:20px; height:20px; color:${status.color}; }
+
+        .status-block {
+          position:relative;
+          z-index:2;
+          margin-top:14px;
+          max-width:52%;
         }
 
         .status-row {
           display:flex;
           align-items:center;
-          gap:12px;
-          margin-bottom:10px;
+          gap:10px;
+          margin-bottom:6px;
         }
 
         .dot {
-          width:16px;
-          height:16px;
-          flex:0 0 16px;
+          width:14px;
+          height:14px;
+          flex:0 0 14px;
           border-radius:50%;
           background:${status.color};
-          box-shadow:0 0 18px color-mix(in srgb, ${status.color} 65%, transparent);
+          box-shadow:0 0 16px color-mix(in srgb, ${status.color} 65%, transparent);
         }
 
         .status {
@@ -265,7 +253,7 @@ class EatonUpsCard extends HTMLElement {
         }
 
         .status-data {
-          margin-top:12px;
+          margin-top:8px;
           color:color-mix(in srgb, var(--ups-card-secondary) 80%, transparent);
           font-size:12px;
           line-height:1.3;
@@ -273,48 +261,47 @@ class EatonUpsCard extends HTMLElement {
         }
 
         .metrics {
+          position:relative;
+          z-index:3;
           display:grid;
-          grid-template-columns:repeat(2,minmax(0,1fr));
-          gap:14px;
-          min-width:0;
+          grid-template-columns:repeat(4,minmax(0,1fr));
+          gap:12px;
+          padding:0 18px 18px;
+          margin-top:-28px;
         }
 
         .metric {
           appearance:none;
           display:grid;
-          grid-template-columns:58px minmax(0,1fr);
+          grid-template-columns:46px minmax(0,1fr);
           align-items:center;
           min-width:0;
-          min-height:112px;
-          padding:16px 18px;
-          border:1px solid color-mix(in srgb, var(--accent) 32%, var(--ups-card-border));
-          border-radius:22px;
-          background:color-mix(in srgb, var(--ups-card-surface) 90%, transparent);
+          min-height:104px;
+          padding:14px 16px;
+          border:1px solid color-mix(in srgb, var(--accent) 30%, var(--ups-card-border));
+          border-radius:20px;
+          background:color-mix(in srgb, var(--ups-card-surface) 88%, transparent);
           color:var(--ups-card-fg);
           font:inherit;
           text-align:left;
           cursor:pointer;
+          backdrop-filter:blur(10px);
+          box-shadow:0 10px 24px rgba(0,0,0,.08);
           transition:transform .12s ease, background .12s ease;
         }
 
         .metric:hover {
-          background:color-mix(in srgb, var(--ups-card-surface) 78%, var(--primary-color, #03a9f4) 22%);
+          background:color-mix(in srgb, var(--ups-card-surface) 76%, var(--primary-color, #03a9f4) 24%);
         }
 
         .metric:active { transform:scale(.985); }
-
-        .metric ha-icon {
-          width:42px;
-          height:42px;
-          color:var(--accent);
-        }
-
+        .metric ha-icon { width:34px; height:34px; color:var(--accent); }
         .metric-copy { min-width:0; }
 
         .metric-label {
           margin-bottom:7px;
           color:var(--ups-card-secondary);
-          font-size:clamp(13px,1.35cqw,17px);
+          font-size:clamp(12px,1.15cqw,15px);
           line-height:1.05;
           white-space:nowrap;
           overflow:hidden;
@@ -323,7 +310,7 @@ class EatonUpsCard extends HTMLElement {
 
         .metric-value {
           color:var(--ups-card-fg);
-          font-size:clamp(25px,3cqw,38px);
+          font-size:clamp(23px,2.6cqw,34px);
           line-height:1;
           font-weight:800;
           white-space:nowrap;
@@ -331,100 +318,58 @@ class EatonUpsCard extends HTMLElement {
           text-overflow:ellipsis;
         }
 
-        .badge {
-          position:absolute;
-          top:18px;
-          right:18px;
-          display:flex;
-          align-items:center;
-          gap:8px;
-          padding:10px 16px;
-          border-radius:18px;
-          border:1px solid var(--ups-card-border);
-          background:color-mix(in srgb, var(--ups-card-surface) 88%, transparent);
-          color:var(--ups-card-fg);
-          font-size:15px;
-          font-weight:700;
-          backdrop-filter:blur(8px);
-          z-index:2;
-        }
-
-        .badge ha-icon {
-          width:20px;
-          height:20px;
-          color:${status.color};
-        }
-
-        @container (max-width:920px) {
-          ha-card { min-height:330px; }
-
-          .layout {
-            grid-template-columns:160px minmax(0,1fr);
-            grid-template-areas:
-              "image info"
-              "metrics metrics";
-            min-height:330px;
-            gap:14px 18px;
+        @container (max-width:900px) {
+          .hero {
+            min-height:190px;
+            background:
+              linear-gradient(90deg,
+                color-mix(in srgb, var(--ups-card-bg) 95%, transparent) 0%,
+                color-mix(in srgb, var(--ups-card-bg) 78%, transparent) 56%,
+                color-mix(in srgb, var(--ups-card-bg) 36%, transparent) 100%),
+              linear-gradient(180deg, transparent 58%, var(--ups-card-bg) 100%),
+              url("${esc(image)}") right center / min(56%, 430px) auto no-repeat,
+              var(--ups-card-bg);
           }
-
-          .image-wrap {
-            grid-area:image;
-            min-height:130px;
-            height:130px;
-          }
-
-          .info { grid-area:info; }
-          .metrics { grid-area:metrics; }
-          .badge { display:none; }
-          .name { margin-bottom:12px; }
+          .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:-18px; }
+          .status-block { max-width:58%; }
         }
 
         @container (max-width:560px) {
-          ha-card { min-height:470px; }
-
-          .layout {
-            grid-template-columns:112px minmax(0,1fr);
+          ha-card { min-height:0; }
+          .hero {
+            min-height:200px;
             padding:14px;
+            background:
+              linear-gradient(90deg,
+                color-mix(in srgb, var(--ups-card-bg) 96%, transparent) 0%,
+                color-mix(in srgb, var(--ups-card-bg) 76%, transparent) 62%,
+                color-mix(in srgb, var(--ups-card-bg) 44%, transparent) 100%),
+              linear-gradient(180deg, transparent 50%, var(--ups-card-bg) 100%),
+              url("${esc(image)}") right bottom / 62% auto no-repeat,
+              var(--ups-card-bg);
           }
-
-          .image-wrap {
-            min-height:104px;
-            height:104px;
-            border-radius:18px;
-          }
-
-          .metrics { gap:10px; }
-
-          .metric {
-            grid-template-columns:40px minmax(0,1fr);
-            min-height:92px;
-            padding:12px;
-            border-radius:18px;
-          }
-
-          .metric ha-icon {
-            width:30px;
-            height:30px;
-          }
-
-          .metric-label { font-size:11px; }
-          .metric-value { font-size:21px; }
-          .name { font-size:21px; }
+          .name { max-width:72%; font-size:24px; }
+          .badge { padding:7px 10px; font-size:12px; }
+          .status-block { max-width:70%; }
           .status { font-size:16px; }
           .detail { font-size:13px; }
           .status-data { display:none; }
+          .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; padding:0 12px 12px; margin-top:-10px; }
+          .metric { grid-template-columns:36px minmax(0,1fr); min-height:86px; padding:11px; border-radius:16px; }
+          .metric ha-icon { width:28px; height:28px; }
+          .metric-label { font-size:11px; }
+          .metric-value { font-size:20px; }
         }
       </style>
 
       <ha-card>
-        <div class="badge"><ha-icon icon="${status.icon}"></ha-icon>${esc(status.badge)}</div>
-        <div class="layout">
-          <div class="image-wrap">
-            <img src="${esc(image)}" alt="${esc(this._config.name)}">
+        <div class="hero">
+          <div class="title-row">
+            <div class="name">${esc(this._config.name)}</div>
+            <div class="badge"><ha-icon icon="${status.icon}"></ha-icon>${esc(status.badge)}</div>
           </div>
 
-          <div class="info">
-            <div class="name">${esc(this._config.name)}</div>
+          <div class="status-block">
             <div class="status-row">
               <span class="dot"></span>
               <span class="status">${esc(status.label)}</span>
@@ -432,9 +377,9 @@ class EatonUpsCard extends HTMLElement {
             <div class="detail">${esc(status.detail)}</div>
             ${this._config.show_status_data && statusData ? `<div class="status-data">${esc(statusData)}</div>` : ""}
           </div>
-
-          <div class="metrics">${metricHtml}</div>
         </div>
+
+        <div class="metrics">${metricHtml}</div>
       </ha-card>`;
 
     this.shadowRoot.querySelectorAll(".metric").forEach((el) => {
@@ -451,22 +396,13 @@ class EatonUpsCardEditor extends HTMLElement {
     this._hass = null;
   }
 
-  set hass(hass) {
-    this._hass = hass;
-    this._render();
-  }
-
-  setConfig(config) {
-    this._config = { ...DEFAULT_CONFIG, ...config };
-    this._render();
-  }
+  set hass(hass) { this._hass = hass; this._render(); }
+  setConfig(config) { this._config = { ...DEFAULT_CONFIG, ...config }; this._render(); }
 
   _emit(next) {
     this._config = next;
     this.dispatchEvent(new CustomEvent("config-changed", {
-      detail: { config: next },
-      bubbles: true,
-      composed: true,
+      detail: { config: next }, bubbles: true, composed: true,
     }));
   }
 
@@ -475,88 +411,24 @@ class EatonUpsCardEditor extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
-        :host {
-          display:block;
-          color:var(--primary-text-color);
-        }
-
-        .editor {
-          display:grid;
-          gap:18px;
-          padding:8px 0;
-        }
-
-        .section {
-          display:grid;
-          gap:14px;
-        }
-
-        .title {
-          font-size:14px;
-          font-weight:700;
-        }
-
-        .grid {
-          display:grid;
-          grid-template-columns:repeat(2,minmax(0,1fr));
-          gap:14px 16px;
-        }
-
-        .field {
-          display:grid;
-          gap:6px;
-          min-width:0;
-        }
-
-        .label {
-          color:var(--secondary-text-color);
-          font-size:12px;
-        }
-
-        input[type="text"] {
-          width:100%;
-          min-height:44px;
-          padding:9px 12px;
-          border:1px solid var(--divider-color);
-          border-radius:8px;
-          background:var(--card-background-color);
-          color:var(--primary-text-color);
-          font:inherit;
-        }
-
-        ha-entity-picker {
-          width:100%;
-          min-width:0;
-        }
-
-        .check {
-          display:flex;
-          align-items:center;
-          gap:10px;
-          color:var(--primary-text-color);
-          font-size:14px;
-        }
-
-        .check input {
-          width:20px;
-          height:20px;
-        }
-
-        .hint {
-          color:var(--secondary-text-color);
-          font-size:12px;
-          line-height:1.4;
-        }
-
-        @media(max-width:520px) {
-          .grid { grid-template-columns:1fr; }
-        }
+        :host { display:block; color:var(--primary-text-color); }
+        .editor { display:grid; gap:18px; padding:8px 0; }
+        .section { display:grid; gap:14px; }
+        .title { font-size:14px; font-weight:700; }
+        .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 16px; }
+        .field { display:grid; gap:6px; min-width:0; }
+        .label { color:var(--secondary-text-color); font-size:12px; }
+        input[type="text"] { width:100%; min-height:44px; padding:9px 12px; border:1px solid var(--divider-color); border-radius:8px; background:var(--card-background-color); color:var(--primary-text-color); font:inherit; }
+        ha-entity-picker { width:100%; min-width:0; }
+        .check { display:flex; align-items:center; gap:10px; color:var(--primary-text-color); font-size:14px; }
+        .check input { width:20px; height:20px; }
+        .hint { color:var(--secondary-text-color); font-size:12px; line-height:1.4; }
+        @media(max-width:520px) { .grid { grid-template-columns:1fr; } }
       </style>
 
       <div class="editor">
         <div class="section">
           <div class="title">Eaton UPS Card</div>
-
           <div class="grid">
             <label class="field">
               <span class="label">Name</span>
@@ -582,8 +454,7 @@ class EatonUpsCardEditor extends HTMLElement {
           </label>
 
           <div class="hint">
-            Die Entitäten werden mit dem normalen Home-Assistant-Entity-Picker ausgewählt.
-            Ohne eigene Bild-URL verwendet die Card automatisch
+            Das Bild wird als Hintergrund der oberen Kartenhälfte verwendet. Ohne eigene Bild-URL nutzt die Card automatisch
             <code>/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png</code>.
           </div>
         </div>
@@ -595,8 +466,7 @@ class EatonUpsCardEditor extends HTMLElement {
       picker.value = this._config[key] ?? "";
       picker.allowCustomEntity = true;
       picker.addEventListener("value-changed", (event) => {
-        const value = event.detail?.value ?? "";
-        this._emit({ ...this._config, [key]: value });
+        this._emit({ ...this._config, [key]: event.detail?.value ?? "" });
       });
     });
 
@@ -604,31 +474,21 @@ class EatonUpsCardEditor extends HTMLElement {
       input.addEventListener("change", (event) => {
         const key = event.currentTarget.dataset.key;
         const value = event.currentTarget.value;
-
         const next = { ...this._config };
-        if (key === "image" && !value.trim()) {
-          delete next.image;
-        } else {
-          next[key] = value;
-        }
+        if (key === "image" && !value.trim()) delete next.image;
+        else next[key] = value;
         this._emit(next);
       });
     });
 
-    const checkbox = this.shadowRoot.querySelector('input[data-key="show_status_data"]');
-    checkbox?.addEventListener("change", (event) => {
+    this.shadowRoot.querySelector('input[data-key="show_status_data"]')?.addEventListener("change", (event) => {
       this._emit({ ...this._config, show_status_data: event.currentTarget.checked });
     });
   }
 }
 
-if (!customElements.get("eaton-ups-card-editor")) {
-  customElements.define("eaton-ups-card-editor", EatonUpsCardEditor);
-}
-
-if (!customElements.get("eaton-ups-card")) {
-  customElements.define("eaton-ups-card", EatonUpsCard);
-}
+if (!customElements.get("eaton-ups-card-editor")) customElements.define("eaton-ups-card-editor", EatonUpsCardEditor);
+if (!customElements.get("eaton-ups-card")) customElements.define("eaton-ups-card", EatonUpsCard);
 
 window.customCards = window.customCards || [];
 if (!window.customCards.some((card) => card.type === "eaton-ups-card")) {
