@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220" role="img" aria-labelledby="title desc">
+  <title id="title">Eaton UPS Card</title>
+  <desc id="desc">Independent community project logo for Eaton UPS Card</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b74c9"/>
+      <stop offset="1" stop-color="#49a7e8"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="880" height="200" rx="42" fill="none" stroke="url(#g)" stroke-width="10"/>
+  <circle cx="115" cy="110" r="62" fill="url(#g)"/>
+  <path d="M103 62v41h-18v22h18v33h24v-33h18v-22h-18V62z" fill="#fff"/>
+  <text x="210" y="106" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" fill="#0b74c9">Eaton UPS Card</text>
+  <text x="214" y="154" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#6b7280">Home Assistant Community Project</text>
+</svg>

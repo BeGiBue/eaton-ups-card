@@ -1,26 +1,32 @@
-# Eaton UPS Card
+<p align="center">
+  <img src="images/eaton-ups-card-logo.svg" alt="Eaton UPS Card" width="420">
+</p>
 
-**Version 1.0.8**
+<h1 align="center">Eaton UPS Card</h1>
 
-Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten 2×2-Layout.
+<p align="center">
+  Responsive Home-Assistant-Dashboard-Card für eine Eaton 3S 850 USV.
+</p>
+
+<p align="center">
+  <strong>Version 1.0.0</strong>
+</p>
+
+## Vorschau
+
+![Eaton UPS Card in Home Assistant](screenshots/eaton-ups-card.jpg)
 
 ## Funktionen
 
 - Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
-- Standardbild direkt in `eaton-ups-card.js` eingebettet
-- Das eingebettete PNG wird intern als Blob-URL bereitgestellt und als normales `<img>` geladen
-- Kein `/hacsfiles/...`-Bildpfad und keine separate Bilddatei erforderlich
-- Titel links oben, Status direkt darunter
-- Vier Messwerte immer in einem stabilen 2×2-Raster
-- USV-Bild im Hintergrund hinter Hero-Bereich und erster Messwertreihe
-- Bild gegenüber Version 1.0.7 um 50 % vergrößert
-- 10 px zusätzlicher Abstand des Bildes zum oberen und rechten Kartenrand
-- Kartenhöhe bleibt innerhalb des von Home Assistant zugewiesenen Layout-Bereichs
-- Grafischer Karteneditor in Home Assistant
-- Native Home-Assistant-Entity-Picker für alle Entitäten
-- Theme-sensitiver Hintergrund, Text, Flächen, Rahmen und Badge
-- Automatische Statusauswertung typischer NUT-Werte
-- Klick auf einen Messwert öffnet den jeweiligen Home-Assistant-Entity-Dialog
+- Theme-sensitive Darstellung für Light Mode, Dark Mode und benutzerdefinierte Themes
+- Eingebettetes Eaton-3S-850-Produktbild – keine zusätzliche Bilddatei in Home Assistant erforderlich
+- Produktbild liegt hinter dem oberen Kartenbereich und der ersten Messwertreihe
+- Stabiler 2×2-Messwertbereich für Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung
+- Native Home-Assistant-Entity-Picker im grafischen Karteneditor
+- Automatische Auswertung typischer NUT-Statuswerte
+- Klick auf Messwerte öffnet den Home-Assistant-Mehr-Informationen-Dialog
+- Höhe und Breite folgen dem von Home Assistant zugewiesenen Layout-Bereich
 - Keine externen JavaScript-Bibliotheken
 
 ## Standard-Entitäten
@@ -34,7 +40,7 @@ sensor.ups_akkulaufzeit
 sensor.waschkeller_ups_wirkleistung
 ```
 
-Alle Entitäten können im grafischen Karteneditor über den normalen Home-Assistant-Entity-Picker oder per YAML geändert werden.
+Alle Entitäten können im grafischen Karteneditor über die normalen Home-Assistant-Entity-Picker oder per YAML geändert werden.
 
 ## Installation über HACS
 
@@ -45,13 +51,14 @@ Alle Entitäten können im grafischen Karteneditor über den normalen Home-Assis
 ### Manuell
 
 1. In HACS **Benutzerdefinierte Repositories** öffnen.
-2. `https://github.com/BeGiBue/eaton-ups-card` hinzufügen und Typ **Dashboard** auswählen.
-3. **Eaton UPS Card** installieren.
-4. Home Assistant bzw. den Browser vollständig neu laden.
+2. `https://github.com/BeGiBue/eaton-ups-card` hinzufügen.
+3. Als Typ **Dashboard** auswählen.
+4. **Eaton UPS Card** installieren.
+5. Home Assistant bzw. den Browser vollständig neu laden.
 
 ## Card hinzufügen
 
-Minimal-Konfiguration:
+Minimal:
 
 ```yaml
 type: custom:eaton-ups-card
@@ -71,58 +78,35 @@ power_entity: sensor.waschkeller_ups_wirkleistung
 show_status_data: true
 ```
 
-## Integriertes Bild
+## Bild
 
-Das Standardbild ist direkt in `eaton-ups-card.js` eingebettet und wird intern als Blob-URL geladen. Dadurch ist kein zusätzlicher HACS-Bildpfad erforderlich.
+Das Standardbild der Eaton 3S 850 ist direkt in `eaton-ups-card.js` eingebettet. HACS muss deshalb keine zusätzliche Bilddatei installieren.
 
-In Version **1.0.8** wurde das Bild um 50 % vergrößert. Es liegt weiterhin im Hintergrund, reicht jetzt aber zusätzlich hinter die erste Reihe des 2×2-Messwertrasters. Damit bleibt das Bild sichtbar, ohne die Messwertkacheln zu verdrängen.
-
-Zum oberen und rechten Kartenrand hält das Bild jeweils 10 px zusätzlichen Abstand.
-
-Eine eigene Bild-URL kann weiterhin optional verwendet werden:
+Optional kann eine eigene Bild-URL gesetzt werden:
 
 ```yaml
 image: /local/images/meine_usv.png
 ```
 
-Falls eine eigene Bild-URL nicht geladen werden kann, fällt die Card automatisch auf das eingebettete Standardbild zurück.
+Kann die eigene Bild-URL nicht geladen werden, fällt die Card auf das eingebettete Standardbild zurück.
 
-## Höhe und Layout
+## Layout
 
-Die Card füllt ausschließlich den ihr von Home Assistant zugewiesenen Bereich. Das interne `ha-card` ist exakt an den Host gebunden und kann dadurch nicht über den Layout-Slot hinausragen.
+Die Card verwendet ein festes 2×2-Raster für die vier Messwerte:
 
 ```text
 ┌──────────────────────────────────────┐
 │ Eaton 3S 850              [ USV ]    │
 │ ● Online                    BILD     │
-│ Alles in Ordnung             BILD    │
-├──────────────────────────────────────┤
-│ Ausgangsspannung   │ Last     BILD   │
-│ Akkulaufzeit       │ Wirkleistung    │
-└──────────────────────────────────────┘
+│ Alles in Ordnung                     │
+├──────────────────┬───────────────────┤
+│ Ausgangsspannung │ Last              │
+├──────────────────┼───────────────────┤
+│ Akkulaufzeit     │ Wirkleistung      │
+└──────────────────┴───────────────────┘
 ```
 
-Das 2×2-Messwertraster bleibt unabhängig von der Kartenbreite erhalten. Die Messwertkacheln liegen vor dem Bild und verwenden eine leicht transparente, theme-sensitive Fläche.
-
-`getGridOptions()` liefert standardmäßig 12 Spalten und 6 Zeilen; die Größe kann weiterhin über Home Assistants Tab **Layout** eingestellt werden.
-
-## Theme-Unterstützung
-
-Die Card folgt dem aktiven Home-Assistant-Theme und verwendet unter anderem:
-
-```text
---ha-card-background
---card-background-color
---primary-text-color
---secondary-text-color
---secondary-background-color
---divider-color
---ha-card-border-color
---ha-card-box-shadow
---ha-card-border-radius
-```
-
-Die vier Messwert-Akzentfarben bleiben bewusst erhalten.
+Breite und Höhe werden über Home Assistants **Layout**-Einstellungen festgelegt. Die Card implementiert `getGridOptions()` und bleibt innerhalb des zugewiesenen Layout-Slots.
 
 ## Statusauswertung
 
@@ -137,14 +121,20 @@ Typische NUT-Statuswerte werden automatisch interpretiert:
 - `FAULT` / `FSD` → Störung
 - `OFF` → Ausgeschaltet
 
-Für die Auswertung werden `status_entity` und `status_data_entity` gemeinsam berücksichtigt.
+Für die Statusauswertung werden `status_entity` und `status_data_entity` gemeinsam berücksichtigt.
 
-## Hinweise
+## Release
 
-Dieses Projekt ist ein unabhängiges Community-Projekt und steht in keiner Verbindung zu Eaton oder Home Assistant.
+Release Notes für Version 1.0.0: [`RELEASE_NOTES_1.0.0.md`](RELEASE_NOTES_1.0.0.md)
 
-Eaton und Eaton 3S sind Marken ihrer jeweiligen Rechteinhaber.
+## Hinweise zu Marken
+
+Dieses Projekt ist ein unabhängiges Community-Projekt und steht in keiner Verbindung zu Eaton oder Home Assistant. Es wird weder von Eaton noch von Home Assistant unterstützt oder herausgegeben.
+
+**Eaton** und **Eaton 3S** sind Marken ihrer jeweiligen Rechteinhaber. Das im Repository verwendete Projektlogo ist ein eigenständiges Community-Projektlogo und nicht das offizielle Eaton-Unternehmenslogo.
 
 ## Lizenz
 
-Creative Commons Attribution-NonCommercial 4.0 International (**CC BY-NC 4.0**). Änderungen und nicht-kommerzielle Weitergabe sind unter Namensnennung erlaubt; kommerzielle Nutzung ist nicht gestattet. Details stehen in `LICENSE`.
+Creative Commons Attribution-NonCommercial 4.0 International (**CC BY-NC 4.0**).
+
+Änderungen und nicht-kommerzielle Weitergabe sind unter Namensnennung erlaubt; kommerzielle Nutzung ist nicht gestattet. Details stehen in [`LICENSE`](LICENSE).
