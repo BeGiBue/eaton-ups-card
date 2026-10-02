@@ -2,6 +2,23 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.5 - 2026-10-02
+
+### Geändert
+
+- Das 1×4-Messwertlayout wurde entfernt, da es sich auf breiteren Karten überlappen konnte.
+- Die vier Messwerte werden jetzt unabhängig von der Kartenbreite immer in einem stabilen 2×2-Raster dargestellt.
+- Das Eaton-3S-850-Bild ist jetzt direkt als Data-URI in `eaton-ups-card.js` eingebettet.
+- Für das Standardbild wird keine separate Datei unter `/hacsfiles/...` mehr benötigt.
+- Eine eigene Bild-URL kann weiterhin optional über `image:` gesetzt werden.
+- Der Hero-Bereich mit Titel links oben, Status und Hintergrundbild bleibt erhalten.
+- Theme-sensitive Farben und Home-Assistant-Theme-Variablen bleiben vollständig erhalten.
+
+### Behoben
+
+- Überlappungen im bisherigen 1×4-Layout beseitigt.
+- Fehler durch fehlende oder nicht von HACS ausgelieferte Bilddateien beseitigt.
+
 ## 1.0.4 - 2026-10-02
 
 ### Geändert
