@@ -9,7 +9,8 @@
 </p>
 
 <p align="center">
-  <strong>Version 1.0.0</strong>
+  <strong>Version 1.0.0</strong><br>
+  <a href="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml"><img src="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml/badge.svg" alt="HACS validation"></a>
 </p>
 
 ## Vorschau
@@ -50,6 +51,8 @@ Alle Entitäten können im grafischen Karteneditor über die normalen Home-Assis
 3. Als Typ **Dashboard** auswählen.
 4. **Eaton UPS Card** installieren.
 5. Home Assistant bzw. den Browser vollständig neu laden.
+
+Das Repository enthält eine HACS-Validierung unter `.github/workflows/validate.yml`. In `hacs.json` ist `eaton-ups-card.js` explizit als Plugin-Datei angegeben.
 
 ## Card hinzufügen
 
