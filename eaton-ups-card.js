@@ -1,5 +1,5 @@
-// Eaton UPS Card v1.0.1
-const VERSION="1.0.1";
+// Eaton UPS Card v1.0.4
+const VERSION="1.0.4";
 const DEFAULT_IMAGE="https://raw.githubusercontent.com/BeGiBue/eaton-ups-card/main/images/eaton_3s_850.png";
 const DEF={
   name:"Eaton 3S 850",
