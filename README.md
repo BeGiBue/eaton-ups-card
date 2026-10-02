@@ -18,16 +18,11 @@
 
 ## Funktionen
 
-- Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
 - Theme-sensitive Darstellung für Light Mode, Dark Mode und benutzerdefinierte Themes
 - Eingebettetes Eaton-3S-850-Produktbild – keine zusätzliche Bilddatei in Home Assistant erforderlich
-- Produktbild liegt hinter dem oberen Kartenbereich und der ersten Messwertreihe
-- Stabiler 2×2-Messwertbereich für Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung
 - Native Home-Assistant-Entity-Picker im grafischen Karteneditor
 - Automatische Auswertung typischer NUT-Statuswerte
 - Klick auf Messwerte öffnet den Home-Assistant-Mehr-Informationen-Dialog
-- Höhe und Breite folgen dem von Home Assistant zugewiesenen Layout-Bereich
-- Keine externen JavaScript-Bibliotheken
 
 ## Standard-Entitäten
 
