@@ -1,4 +1,5 @@
 {
   "name": "Eaton UPS Card",
+  "filename": "eaton-ups-card.js",
   "render_readme": true
 }
