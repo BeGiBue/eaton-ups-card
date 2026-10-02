@@ -2,6 +2,16 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.4 - 2026-10-03
+
+### Geändert
+
+- Messwerte in den vier Feldern mittig ausgerichtet.
+- Messwert-Schrift um etwa 5 % vergrößert.
+- Farbschema an die NAS Card angeglichen.
+- Theme-Variablen für Primär-, Erfolgs-, Warn- und Fehlerfarben übernommen.
+- Kartenhintergrund und Panel-Farben an die NAS Card angeglichen.
+
 ## 1.0.0 - 2026-10-02
 
 ### Hinzugefügt
@@ -21,4 +31,4 @@ Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentier
 
 ### Lizenz
 
-- Projekt unter CC BY-NC 4.0.
+- Projekt unter GNU Affero General Public License v3.0 (AGPL-3.0).
