@@ -2,6 +2,19 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.2 - 2026-10-02
+
+### Geändert
+
+- Kartenhintergrund, Textfarben, Flächen, Rahmen und Badge folgen jetzt den aktiven Home-Assistant-Theme-Variablen.
+- Der Standard-Bildpfad verwendet jetzt direkt den HACS-Pfad `/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png`.
+- Das mitgelieferte Eaton-3S-850-Bild wurde durch die vom Nutzer bereitgestellte PNG-Datei ersetzt.
+
+### Behoben
+
+- Bildanzeige über HACS-Pfad korrigiert.
+- Defekte Bilddatei im Repository ersetzt.
+
 ## 1.0.1 - 2026-10-02
 
 ### Geändert
