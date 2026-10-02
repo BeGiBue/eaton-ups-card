@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Version 1.0.0</strong><br>
+  <strong>Version 1.0.4</strong><br>
   <a href="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml"><img src="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml/badge.svg" alt="HACS validation"></a>
 </p>
 
