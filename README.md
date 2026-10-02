@@ -1,13 +1,18 @@
 # Eaton UPS Card
 
-**Version 1.0.3**
+**Version 1.0.4**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten, responsiven Layout.
 
 ## Funktionen
 
 - Eigenständige Lovelace Custom Card ohne Bubble-Card-Abhängigkeit
-- Große 2×2-Messwertanzeigen
+- USV-Bild als Hintergrund der oberen Kartenhälfte
+- Titel links oben über dem Hintergrundbild
+- Status und Beschreibung direkt im Hero-Bereich
+- Messwerte überlagern den unteren Rand des oberen Bildbereichs
+- Vier Messwerte in einer Reihe auf breiten Karten
+- Automatisches 2×2-Layout bei schmaleren Karten
 - Responsive Darstellung für breite und schmale Dashboards
 - Breite und Höhe über Home Assistants **Layout**-Funktion
 - Sections-Layout mit Full-Width-Unterstützung
@@ -79,7 +84,7 @@ Die Standard-Bilddatei wird unter folgendem Repository-Pfad erwartet:
 assets/eaton_3s_850.png
 ```
 
-Bei einer HACS-Installation wird sie von der Card automatisch über die aktuelle Home-Assistant-Adresse geladen. Der resultierende Pfad lautet:
+Bei einer HACS-Installation wird sie automatisch unter folgendem Pfad geladen:
 
 ```text
 /hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
@@ -91,7 +96,7 @@ Beispiel:
 http://homeassistant.local/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
 ```
 
-Die Card baut diese URL aus `window.location.origin` auf. Dadurch wird immer dieselbe Home-Assistant-Instanz verwendet, auf der die Card gerade läuft.
+Das Bild wird nicht mehr als separates Element links in der Karte angezeigt, sondern als Hintergrund der oberen Kartenhälfte. Auf der linken Seite liegt ein theme-sensitiver Verlauf, damit Titel und Status unabhängig vom Bild gut lesbar bleiben.
 
 Optional kann über `image:` eine eigene Bild-URL angegeben werden:
 
@@ -122,15 +127,21 @@ Damit passt sich die Card automatisch an Light Mode, Dark Mode und benutzerdefin
 
 ## Layout
 
-Breite und Höhe werden nicht in der Card festgelegt. Sie werden über Home Assistants Tab **Layout** eingestellt. Die Card implementiert `getGridOptions()` und füllt den zugewiesenen Bereich vollständig aus.
-
-Bei breiten Karten wird die Darstellung in drei Bereiche aufgeteilt:
+Bei breiten Karten besteht das Layout aus zwei Ebenen:
 
 ```text
-USV-Bild | Name / Status | 2×2 Messwerte
+┌─────────────────────────────────────────────────────┐
+│ Eaton 3S 850                     [ USV ]      BILD  │
+│ ● Online                                           │
+│ Alles in Ordnung                                   │
+│                                                     │
+│   Spannung      Last      Laufzeit      Leistung   │
+└─────────────────────────────────────────────────────┘
 ```
 
-Bei schmaleren Karten ordnet sich das Layout automatisch neu an.
+Das Bild liegt dabei im Hintergrund der oberen Hälfte. Die Messwert-Kacheln ragen leicht in diesen Bereich hinein. Auf schmaleren Karten wechseln die vier Werte automatisch in ein 2×2-Raster.
+
+Breite und Höhe werden über Home Assistants Tab **Layout** eingestellt. Die Card implementiert `getGridOptions()` und füllt den zugewiesenen Bereich vollständig aus.
 
 ## Statusauswertung
 
