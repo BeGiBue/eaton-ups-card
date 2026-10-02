@@ -1,6 +1,6 @@
 # Eaton UPS Card
 
-**Version 1.0.1**
+**Version 1.0.2**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten, responsiven Layout.
 
@@ -16,6 +16,7 @@ Die Card enthält das Eaton-3S-850-Bild direkt im Repository und verwendet es st
 - Sections-Layout mit Full-Width-Unterstützung
 - Grafischer Karteneditor in Home Assistant
 - Native Home-Assistant-Entity-Picker für alle Entitäten
+- Theme-sensitiver Hintergrund und Theme-sensitives Kartenlayout
 - Automatische Statusauswertung typischer NUT-Werte wie `OL`, `ONLINE`, `OB`, `ON BATTERY`, `LB`, `LOW`, `BYPASS`, `OVER`, `FAULT`, `FSD`, `CHRG` und `CHARG`
 - Farbige Statusanzeige für Netzbetrieb, Batteriebetrieb und Störungen
 - Klick auf einen Messwert öffnet den jeweiligen Home-Assistant-Entity-Dialog
@@ -75,13 +76,23 @@ show_status_data: true
 
 ## Integriertes Bild
 
-Das mitgelieferte Bild liegt unter:
+Das mitgelieferte Bild liegt im Repository unter:
 
 ```text
 assets/eaton_3s_850.png
 ```
 
-Die Card ermittelt den Pfad relativ zu `eaton-ups-card.js` über `import.meta.url`. Dadurch wird das Bild bei HACS- und manueller Installation automatisch verwendet.
+Bei einer HACS-Installation wird es von der Card standardmäßig über diesen Pfad geladen:
+
+```text
+/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
+```
+
+Das entspricht in einer Standardinstallation beispielsweise:
+
+```text
+http://homeassistant.local/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png
+```
 
 Optional kann über `image:` eine eigene Bild-URL angegeben werden:
 
@@ -90,6 +101,12 @@ image: /local/images/meine_usv.png
 ```
 
 Bleibt `image:` leer oder wird nicht gesetzt, verwendet die Card automatisch das mitgelieferte Bild.
+
+## Theme-Unterstützung
+
+Der Kartenhintergrund verwendet die Home-Assistant-Theme-Variablen wie `--ha-card-background`, `--card-background-color`, `--primary-text-color`, `--secondary-text-color`, `--secondary-background-color`, `--divider-color` und `--primary-color`.
+
+Dadurch passt sich die Card automatisch an Light Mode, Dark Mode und benutzerdefinierte Home-Assistant-Themes an.
 
 ## Layout
 
