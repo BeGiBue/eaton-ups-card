@@ -1,14 +1,10 @@
 # Eaton UPS Card
 
-**Version 1.0.0**
+**Version 1.0.1**
 
 Responsive Home-Assistant-Dashboard-Card für eine **Eaton 3S 850 USV**. Die Card zeigt Status, Ausgangsspannung, Last, Akkulaufzeit und Wirkleistung in einem kompakten, responsiven Layout.
 
-Die Card enthält das freigestellte Eaton-3S-850-Bild direkt im Repository und verwendet es standardmäßig automatisch.
-
-## Screenshots
-
-Screenshots können im Ordner `screenshots/` abgelegt werden.
+Die Card enthält das Eaton-3S-850-Bild direkt im Repository und verwendet es standardmäßig automatisch.
 
 ## Funktionen
 
@@ -19,7 +15,8 @@ Screenshots können im Ordner `screenshots/` abgelegt werden.
 - Breite und Höhe über Home Assistants **Layout**-Funktion
 - Sections-Layout mit Full-Width-Unterstützung
 - Grafischer Karteneditor in Home Assistant
-- Automatische Statusauswertung typischer NUT-Werte wie `OL`, `OB`, `LB`, `BYPASS`, `OVER` und `FAULT`
+- Native Home-Assistant-Entity-Picker für alle Entitäten
+- Automatische Statusauswertung typischer NUT-Werte wie `OL`, `ONLINE`, `OB`, `ON BATTERY`, `LB`, `LOW`, `BYPASS`, `OVER`, `FAULT`, `FSD`, `CHRG` und `CHARG`
 - Farbige Statusanzeige für Netzbetrieb, Batteriebetrieb und Störungen
 - Klick auf einen Messwert öffnet den jeweiligen Home-Assistant-Entity-Dialog
 - Keine externen JavaScript-Bibliotheken
@@ -37,7 +34,7 @@ sensor.ups_akkulaufzeit
 sensor.waschkeller_ups_wirkleistung
 ```
 
-Alle Entitäten können im grafischen Karteneditor oder per YAML geändert werden.
+Alle Entitäten können im grafischen Karteneditor über den normalen Home-Assistant-Entity-Picker oder per YAML geändert werden.
 
 ## Installation über HACS
 
@@ -84,13 +81,15 @@ Das mitgelieferte Bild liegt unter:
 assets/eaton_3s_850.png
 ```
 
-Die Card ermittelt den Installationspfad über `import.meta.url`, sodass das Bild sowohl bei einer HACS-Installation als auch bei einer manuellen Installation automatisch gefunden wird.
+Die Card ermittelt den Pfad relativ zu `eaton-ups-card.js` über `import.meta.url`. Dadurch wird das Bild bei HACS- und manueller Installation automatisch verwendet.
 
 Optional kann über `image:` eine eigene Bild-URL angegeben werden:
 
 ```yaml
 image: /local/images/meine_usv.png
 ```
+
+Bleibt `image:` leer oder wird nicht gesetzt, verwendet die Card automatisch das mitgelieferte Bild.
 
 ## Layout
 
@@ -108,14 +107,16 @@ Bei schmaleren Karten ordnet sich das Layout automatisch neu an.
 
 Typische NUT-Statuswerte werden automatisch interpretiert:
 
-- `OL` → Netzbetrieb / Alles in Ordnung
-- `OL CHRG` → Netzbetrieb / Akku wird geladen
-- `OB` → Batteriebetrieb
-- `LB` → Akku niedrig
+- `OL` / `ONLINE` → Netzbetrieb / Alles in Ordnung
+- `OL CHRG` / `CHARG` → Netzbetrieb / Akku wird geladen
+- `OB` / `ON BATTERY` → Batteriebetrieb
+- `LB` / `LOW` → Akku niedrig
 - `BYPASS` → Bypass
 - `OVER` → Überlast
 - `FAULT` / `FSD` → Störung
 - `OFF` → Ausgeschaltet
+
+Für die Auswertung werden `status_entity` und `status_data_entity` gemeinsam berücksichtigt.
 
 ## Hinweise
 
