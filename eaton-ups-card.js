@@ -1,7 +1,7 @@
-// Eaton UPS Card v1.0.2
-const VERSION = "1.0.2";
+// Eaton UPS Card v1.0.3
+const VERSION = "1.0.3";
 
-const DEFAULT_IMAGE = "/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png";
+const DEFAULT_IMAGE = `${window.location.origin}/hacsfiles/eaton-ups-card/assets/eaton_3s_850.png`;
 
 const DEFAULT_CONFIG = {
   name: "Eaton 3S 850",
