@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/eaton-ups-card-logo.svg" alt="Eaton UPS Card" width="420">
+  <img src="https://raw.githubusercontent.com/BeGiBue/eaton-ups-card/main/images/eaton-ups-card-logo.svg" alt="Eaton UPS Card" width="420">
 </p>
 
 <h1 align="center">Eaton UPS Card</h1>
