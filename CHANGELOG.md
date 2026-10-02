@@ -2,6 +2,17 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.0.4 - 2026-10-02
+
+### Geändert
+
+- Das USV-Bild liegt jetzt als Hintergrund in der oberen Kartenhälfte.
+- Der Kartentitel sitzt links oben und bleibt frei lesbar über dem Hintergrundbild.
+- Status und Beschreibung liegen ebenfalls im oberen Hero-Bereich.
+- Die Messwerte wurden in eine überlagernde obere Reihe verschoben und beginnen bereits über dem unteren Rand des Hero-Bereichs.
+- Auf breiten Karten werden alle vier Messwerte in einer Reihe dargestellt; bei schmaleren Karten wechseln sie automatisch auf ein 2×2-Layout.
+- Theme-sensitive Farben und Home-Assistant-Theme-Variablen bleiben vollständig erhalten.
+
 ## 1.0.3 - 2026-10-02
 
 ### Geändert
@@ -46,5 +57,5 @@ Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentier
 - Automatische Interpretation typischer NUT-Statuswerte
 - Grafischer Karteneditor
 - Sections-/Layout-Unterstützung über `getGridOptions()`
-- Integriertes Eaton-3S-850-Bild
+- Integriertes freigestelltes Eaton-3S-850-Bild
 - HACS-Unterstützung
