@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Version 1.2.0</strong><br>
+  <strong>Version 1.2.1</strong><br>
   <a href="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml"><img src="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml/badge.svg" alt="HACS validation"></a>
 </p>
 
@@ -123,7 +123,7 @@ Bei schmaler Card stehen die vier Messwerte in einem 2×2-Raster, ab ca. 700 px 
 └──────────────────┴───────────────────┘
 ```
 
-Die Breite wird über Home Assistants **Layout**-Einstellungen festgelegt; die Card implementiert `getGridOptions()`. Eine feste Höhe gibt es nicht – die Höhe ergibt sich aus dem Inhalt. Alle Größen sind in `em` angegeben, die Schrift wächst mit der Kartenbreite (und mit `scale`).
+Die Breite wird über Home Assistants **Layout**-Einstellungen festgelegt; die Card implementiert `getGridOptions()`. Eine feste Höhe gibt es nicht – die Höhe ergibt sich aus dem Inhalt. Die Card meldet Home Assistant ihre Mindesthöhe (`min_rows`); im Layout-Editor lässt sich die Höhe daher nicht kleiner einstellen, als der Inhalt braucht. Alle Größen sind in `em` angegeben, die Schrift wächst mit der Kartenbreite (und mit `scale`).
 
 ## Statusauswertung
 

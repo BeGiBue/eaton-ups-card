@@ -2,6 +2,13 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.2.1 - 2026-10-06
+
+### Behoben
+
+- Die Card ragte über ihren Bereich hinaus, wenn im Layout-Editor zu wenige Zeilen eingestellt waren; nachfolgende Karten rutschten hinein. Die Card meldet jetzt ihre benötigte Mindesthöhe (`min_rows`), kleinere Werte lässt der Editor nicht mehr zu.
+- Innenabstand oben in px statt em, damit der Titel auf gleicher Höhe beginnt wie bei der NAS Card.
+
 ## 1.2.0 - 2026-10-06
 
 ### Geändert
