@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Version 1.0.4</strong><br>
+  <strong>Version 1.2.0</strong><br>
   <a href="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml"><img src="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml/badge.svg" alt="HACS validation"></a>
 </p>
 
@@ -24,6 +24,9 @@
 - Native Home-Assistant-Entity-Picker im grafischen Karteneditor
 - Automatische Auswertung typischer NUT-Statuswerte
 - Klick auf Messwerte öffnet den Home-Assistant-Mehr-Informationen-Dialog
+- Optimiert für Hochformat und Touch – iPhone, iPad und Raspberry-Pi-Kiosk: Schrift wächst mit der Kartenbreite, große Tippflächen, kein Hover-Zwang
+- Glas-Look: Hintergrund, Rand und Blur kommen vom Theme (z. B. Frosted Glass), Status als Pill
+- Last mit Fortschrittsbalken (orange ab 70 %, rot ab 90 %)
 
 ## Standard-Entitäten
 
@@ -76,6 +79,22 @@ power_entity: sensor.waschkeller_ups_wirkleistung
 show_status_data: true
 ```
 
+## Optionen
+
+| Option | Werte | Standard | Beschreibung |
+|---|---|---|---|
+| `scale` | `0.8` – `1.8` | `1` | Skaliert die gesamte Card. Für Kiosk-Displays empfiehlt sich `1.2` – `1.5`. |
+| `image_mode` | `background` \| `inline` | `background` | `background`: Gerätebild groß im Hintergrund. `inline`: Gerätebild neben dem Titel. |
+| `image` | URL | – | Optionale eigene Bild-URL. Leer = eingebettetes Standardbild. |
+
+Beispiel für ein Kiosk-Display:
+
+```yaml
+type: custom:eaton-ups-card
+scale: 1.3
+image_mode: background
+```
+
 ## Bild
 
 Das Standardbild der Eaton 3S 850 ist direkt in `eaton-ups-card.js` eingebettet. HACS muss deshalb keine zusätzliche Bilddatei installieren.
@@ -90,12 +109,12 @@ Kann die eigene Bild-URL nicht geladen werden, fällt die Card auf das eingebett
 
 ## Layout
 
-Die Card verwendet ein festes 2×2-Raster für die vier Messwerte:
+Bei schmaler Card stehen die vier Messwerte in einem 2×2-Raster, ab ca. 700 px Kartenbreite in einer Reihe:
 
 ```text
 ┌──────────────────────────────────────┐
-│ Eaton 3S 850              [ USV ]    │
-│ ● Online                    BILD     │
+│ Eaton 3S 850                         │
+│ ( ● Online )                BILD     │
 │ Alles in Ordnung                     │
 ├──────────────────┬───────────────────┤
 │ Ausgangsspannung │ Last              │
@@ -104,7 +123,7 @@ Die Card verwendet ein festes 2×2-Raster für die vier Messwerte:
 └──────────────────┴───────────────────┘
 ```
 
-Breite und Höhe werden über Home Assistants **Layout**-Einstellungen festgelegt. Die Card implementiert `getGridOptions()` und bleibt innerhalb des zugewiesenen Layout-Slots.
+Die Breite wird über Home Assistants **Layout**-Einstellungen festgelegt; die Card implementiert `getGridOptions()`. Eine feste Höhe gibt es nicht – die Höhe ergibt sich aus dem Inhalt. Alle Größen sind in `em` angegeben, die Schrift wächst mit der Kartenbreite (und mit `scale`).
 
 ## Statusauswertung
 
