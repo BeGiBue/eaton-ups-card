@@ -27,4 +27,4 @@ type: custom:eaton-ups-card
 
 ## Lizenz
 
-CC BY-NC 4.0 – nicht-kommerzielle Nutzung, Änderung und Weitergabe unter Namensnennung.
+GNU Affero General Public License v3.0 (AGPL-3.0).
