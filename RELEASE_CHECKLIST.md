@@ -1,22 +1,22 @@
-# Eaton UPS Card 1.0.0 – Release Checklist
+# Release-Checkliste
 
-- [x] `eaton-ups-card.js` auf Version 1.0.0 gesetzt
-- [x] `VERSION` auf 1.0.0 gesetzt
-- [x] `CHANGELOG.md` auf den ersten stabilen Release konsolidiert
-- [x] `RELEASE_NOTES_1.0.0.md` aktualisiert
-- [x] README mit Screenshot und HACS-Installationsbutton aktualisiert
-- [x] Projektlogo ins Repository aufgenommen
-- [x] `hacs.json` enthält `name`, `filename` und `render_readme`
-- [x] HACS Action als `.github/workflows/validate.yml` hinzugefügt (`category: plugin`)
-- [x] GitHub Issues sind aktiviert
-- [x] Trademark-Hinweis beibehalten
-- [x] Lizenz auf GNU Affero General Public License v3.0 (AGPL-3.0) umgestellt
-- [x] JavaScript syntaktisch geprüft
-- [x] GitHub Repository-Beschreibung gesetzt
-- [x] GitHub Topics gesetzt
-- [x] Vollständigen GitHub Release `1.0.0` erstellt
-- [ ] HACS Action erfolgreich abschließen
-- [ ] Repository unter `plugin` bei `hacs/default` einreichen
+Für jede neue Version `X.Y.Z`:
+
+1. **Version an allen Stellen gleich setzen**
+   - [ ] `VERSION`
+   - [ ] `const VERSION` und Kopfkommentar in `eaton-ups-card.js`
+   - [ ] Versionszeile in der `README.md` (`<strong>Version X.Y.Z</strong>`)
+   - [ ] neuer oberster Eintrag `## X.Y.Z - JJJJ-MM-TT` in `CHANGELOG.md`
+2. **Release Notes**
+   - [ ] `RELEASE_NOTES_X.Y.Z.md` anlegen (kurz, deutsch, aus dem CHANGELOG-Eintrag)
+3. **Prüfen**
+   - [ ] `node --check eaton-ups-card.js`
+   - [ ] Card in Home Assistant prüfen: Light/Dark Mode, iPhone, iPad, Kiosk, grafischer Editor, Layout-Editor (Mindesthöhe)
+4. **Veröffentlichen**
+   - [ ] Pull Request nach `main`, Check „Validate“ (HACS) grün, mergen
+   - [ ] GitHub → Releases → „Draft a new release“: Tag `vX.Y.Z` („Create new tag on publish“, Target `main`), Titel `vX.Y.Z`, Text aus `RELEASE_NOTES_X.Y.Z.md`
+5. **Nachher**
+   - [ ] In Home Assistant über HACS aktualisieren und das Frontend vollständig neu laden
 
 ## HACS-Logo-Hinweis
 

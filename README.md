@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <strong>Version 1.2.1</strong><br>
+  <strong>Version 1.2.2</strong><br>
   <a href="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml"><img src="https://github.com/BeGiBue/eaton-ups-card/actions/workflows/validate.yml/badge.svg" alt="HACS validation"></a>
 </p>
 
@@ -142,7 +142,7 @@ Für die Statusauswertung werden `status_entity` und `status_data_entity` gemein
 
 ## Release
 
-Release Notes für Version 1.0.0: [`RELEASE_NOTES_1.0.0.md`](RELEASE_NOTES_1.0.0.md)
+Alle Versionen stehen unter [GitHub Releases](https://github.com/BeGiBue/eaton-ups-card/releases), die Änderungen im Detail in [`CHANGELOG.md`](CHANGELOG.md). Zu jeder Version gibt es eine Datei `RELEASE_NOTES_<Version>.md`.
 
 ## Hinweise zu Marken
 

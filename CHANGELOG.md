@@ -2,6 +2,15 @@
 
 Alle relevanten Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+## 1.2.2 - 2026-10-08
+
+### Dokumentation
+
+- Release Notes 1.0.0: Lizenzangabe auf AGPL-3.0 korrigiert (stand dort noch CC BY-NC 4.0).
+- Release-Checkliste auf den aktuellen Ablauf gebracht (vorher Stand 1.0.0).
+- README verweist im Abschnitt „Release“ auf alle Versionen statt nur auf 1.0.0.
+- `.gitignore` ergänzt.
+
 ## 1.2.1 - 2026-10-06
 
 ### Behoben
